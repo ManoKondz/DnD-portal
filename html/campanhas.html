@@ -1,33 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-        <!-- Bootstrap CSS via NPM -->
-        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-        <!-- Seu CSS personalizado -->
-        <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Portal de Aventuras</title>
+    <!-- Bootstrap CSS via NPM -->
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Seu CSS personalizado -->
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-            <div class="container">
-                <a class="navbar-brand font-fantasy" href="#">Portal de Aventuras</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-                        <li class="nav-item"><a class="nav-link" href="campanhas.html">Campanhas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="personagens.html">Personagens</a></li>
-                        <li class="nav-item"><a class="nav-link" href="itens-magicos.html">Itens Mágicos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="monstros.html">Monstros</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contato.html">Contato do Mestre</a></li>
-                    </ul>
-                </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+        <div class="container">
+            <a class="navbar-brand font-fantasy" href="#">Portal de Aventuras</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="campanhas.html">Campanhas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personagens.html">Personagens</a></li>
+                    <li class="nav-item"><a class="nav-link" href="itens-magicos.html">Itens Mágicos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="monstros.html">Monstros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contato.html">Contato do Mestre</a></li>
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <section class="container mt-5">
+        <div class="row" id="campaigns-container">
+            <!-- As campanhas serão carregadas dinamicamente aqui -->
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const campaignsContainer = document.getElementById('campaigns-container');
+
+            async function loadCampaigns() {
+                try {
+                    const response = await fetch('http://localhost:3000/api/campaigns'); // Ajuste a URL conforme necessário
+                    const campaigns = await response.json();
+
+                    campaigns.forEach(campaign => {
+                        const cardHTML = `
+                            <div class="col-md-4">
+                                <div class="card bg-light mb-4">
+                                    <img src="img/${campaign.name.toLowerCase().replace(/\s+/g, '-')}.jpg" class="card-img-top" alt="${campaign.name}">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${campaign.name}</h5>
+                                        <p class="card-text">${campaign.description}</p>
+                                        <a href="#" class="btn btn-secondary">Ver Detalhes</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        campaignsContainer.innerHTML += cardHTML;
+                    });
+                } catch (error) {
+                    console.error('Erro ao carregar campanhas:', error);
+                }
+            }
+
+            loadCampaigns();
+        });
+    </script>
 </body>
 </html>
