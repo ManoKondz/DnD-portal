@@ -1,30 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Aventuras - D&D</title>
-    <!-- Bootstrap CSS via NPM -->
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Seu CSS personalizado -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Portal de Aventuras</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .card-item {
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-height: 400px;
+        }
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .item-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid;
+        }
+        .campanhas .card-img-top { border-color: #0d6efd; }
+        .personagens .card-img-top { border-color: #198754; }
+        .monstros .card-img-top { border-color: #dc3545; }
+        .itens-magicos .card-img-top { border-color: #ffc107; }
+    </style>
 </head>
-<body>
+<body class="bg-light">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand font-fantasy" href="#">Portal de Aventuras</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <a class="navbar-brand fw-bold" href="/html/index.html">🏰 Portal de Aventuras</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Início</a></li>
                     <li class="nav-item"><a class="nav-link" href="campanhas.html">Campanhas</a></li>
                     <li class="nav-item"><a class="nav-link" href="personagens.html">Personagens</a></li>
-                    <li class="nav-item"><a class="nav-link" href="itens-magicos.html">Itens Mágicos</a></li>
                     <li class="nav-item"><a class="nav-link" href="monstros.html">Monstros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="contato.html">Contato do Mestre</a></li>
+                    <li class="nav-item"><a class="nav-link" href="adicionar.html">Novo Material</a></li>  
                 </ul>
             </div>
         </div>
@@ -33,37 +58,9 @@
     <!-- Header -->
     <header class="container text-center mt-5 p-5 bg-dark text-light rounded shadow">
         <h1 class="font-fantasy text-uppercase">Bem-vindo ao Portal de Aventuras de D&D</h1>
-        <p class="lead">Descubra campanhas épicas, personagens lendários e tesouros mágicos!</p>
-        <a href="campanhas.html" class="btn btn-primary btn-lg">Explorar Campanhas</a>
+        <p class="lead">Descubra campanhas épicas, personagens lendários e monstros mágicos!</p>
+        <a href="adicionar.html" class="btn btn-primary btn-lg">Criar Material</a>
     </header>
-
-    <!-- Conteúdo Principal -->
-    <section class="container mt-5">
-        <div class="row">
-            <!-- Exemplo de Card de Campanha -->
-            <div class="col-md-4">
-                <div class="card bg-light mb-4">
-                    <img src="img/campanha1.jpg" class="card-img-top" alt="Campanha 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Uma aventura na Ferradura</h5>
-                        <p class="card-text">Uma aventura de grande coragem, onde heróis enfrentam monstros e descobrem tesouros esquecidos.</p>
-                        <a href="#" class="btn btn-secondary">Ver Detalhes</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card bg-light mb-4">
-                    <img src="img/campanha2.jpg" class="card-img-top" alt="Campanha 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Poção de vida menor</h5>
-                        <p class="card-text">Poção de vida pequena.</p>
-                        <a href="#" class="btn btn-secondary">Ver Detalhes</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Outros cards podem seguir o mesmo formato -->
-        </div>
-    </section>
 
     <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="js/scripts.js"></script>

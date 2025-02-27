@@ -1,34 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-        <!-- Bootstrap CSS via NPM -->
-        <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
-        <!-- Seu CSS personalizado -->
-        <link rel="stylesheet" href="../assets/css/style.css">
+    <title>Portal de Aventuras</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .card-item {
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-height: 400px;
+        }
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .item-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid;
+        }
+        .campanhas .card-img-top { border-color: #0d6efd; }
+        .personagens .card-img-top { border-color: #198754; }
+        .monstros .card-img-top { border-color: #dc3545; }
+        .itens-magicos .card-img-top { border-color: #ffc107; }
+    </style>
 </head>
-<body>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-            <div class="container">
-                <a class="navbar-brand font-fantasy" href="#">Portal de Aventuras</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-                        <li class="nav-item"><a class="nav-link" href="campanhas.html">Campanhas</a></li>
-                        <li class="nav-item"><a class="nav-link" href="personagens.html">Personagens</a></li>
-                        <li class="nav-item"><a class="nav-link" href="itens-magicos.html">Itens Mágicos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="monstros.html">Monstros</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contato.html">Contato do Mestre</a></li>
-                    </ul>
-                </div>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/html/index.html">🏰 Portal de Aventuras</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="campanhas.html">Campanhas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="personagens.html">Personagens</a></li>
+                    <li class="nav-item"><a class="nav-link" href="monstros.html">Monstros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="adicionar.html">Novo Material</a></li>  
+                </ul>
             </div>
-        </nav>
-    <p>1. Kaue</p>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row" id="monstros-container">
+            <!-- Os cards dos monstros serão inseridos aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Função para buscar os dados dos monstros e criar os cards
+        async function fetchMonstros() {
+            try {
+                const response = await fetch('http://localhost:3000/api/monstros');
+                
+                if (!response.ok) {
+                    throw new Error('Falha ao buscar dados da API: ' + response.statusText);
+                }
+
+                const monstros = await response.json();
+                console.log('Monstros recebidos:', monstros); // Debug
+                
+                // Verifica se há monstros para exibir
+                if (monstros.length === 0) {
+                    const container = document.getElementById('monstros-container');
+                    container.innerHTML = '<p>Não há monstros disponíveis.</p>';
+                    return;
+                }
+
+                // Referência ao container de monstros
+                const container = document.getElementById('monstros-container');
+                container.innerHTML = ''; // Limpa o conteúdo atual
+
+                // Itera sobre os monstros recebidos da API
+                monstros.forEach(monstro => {
+                    // Criação de card para cada monstro
+                    const card = document.createElement('div');
+                    card.classList.add('col-md-4', 'mb-4', 'monstros');
+                    card.innerHTML = `
+                        <div class="card card-item">
+                            <img src="https://via.placeholder.com/200" class="card-img-top" alt="${monstro.nome}">
+                            <div class="card-body">
+                                <h5 class="card-title">${monstro.nome}</h5>
+                                <p class="card-text">${monstro.descricao}</p>
+                                <span class="badge bg-danger item-badge">Monstro</span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Erro ao buscar monstros:', error);
+                const container = document.getElementById('monstros-container');
+                container.innerHTML = '<p>Erro ao carregar os monstros. Tente novamente mais tarde.</p>';
+                alert('Erro ao buscar monstros: ' + error.message); // Exibe um alerta com o erro
+            }
+        }
+
+        // Chama a função para buscar os monstros ao carregar a página
+        document.addEventListener('DOMContentLoaded', fetchMonstros);
+    </script>
 </body>
 </html>
